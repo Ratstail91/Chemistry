@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class LightAmbience {
+public static class LightAmbiance {
 	static float _value = 1f;
 
 	public static float Value {

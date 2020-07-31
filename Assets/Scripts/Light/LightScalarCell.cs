@@ -16,7 +16,7 @@ public class LightScalarCell : ScalarCell<Light> {
 
 	void Update() {
 		//update opacity
-		float opacity = 1 - Mathf.Clamp(RealValue + LightAmbience.Value, 0f, 1f);
+		float opacity = 1 - Mathf.Clamp(RealValue + LightAmbiance.Value, 0f, 1f);
 		spriteRenderer.color = new Color(1, 1, 1, opacity);
 	}
 
