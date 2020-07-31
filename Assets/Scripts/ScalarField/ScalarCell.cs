@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScalarCell : MonoBehaviour {
+public class ScalarCell<T> : MonoBehaviour {
 	//the usable values
 	public Vector2Int position = new Vector2Int(0, 0);
 
@@ -13,17 +13,17 @@ public class ScalarCell : MonoBehaviour {
 
 	const float epsilon = 0.001f;
 
-	ScalarField field;
+	ScalarField<T> field;
 
-	void Start() {
-		field = GetComponentInParent<ScalarField>();
+	public virtual void Start() {
+		field = GetComponentInParent<ScalarField<T>>();
 	}
 
-	void FixedUpdate() {
+	public virtual void FixedUpdate() {
 		CalculateRealValue();
 	}
 
-	void CalculateRealValue() {
+	public virtual void CalculateRealValue() {
 		//emitter propping the scalar field up here
 		if (EmitterValue != 0f) {
 			RealValue = EmitterValue;

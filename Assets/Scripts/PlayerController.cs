@@ -40,10 +40,16 @@ public class PlayerController : MonoBehaviour {
 
 		if (Mathf.Abs(horizontalInput) > deadZone) {
 			lastHorizontalInput = horizontalInput;
+			if (Mathf.Abs(verticalInput) <= deadZone) {
+				lastVerticalInput = 0f;
+			}
 		}
 
 		if (Mathf.Abs(verticalInput) > deadZone) {
 			lastVerticalInput = verticalInput;
+			if (Mathf.Abs(horizontalInput) <= deadZone) {
+				lastHorizontalInput = 0f;
+			}
 		}
 	}
 

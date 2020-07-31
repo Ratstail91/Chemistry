@@ -2,24 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightScalarCell : MonoBehaviour {
+public class LightScalarCell : ScalarCell<Light> {
 	//components
 	SpriteRenderer spriteRenderer;
-	ScalarCell scalarCell;
 
-	const float maxEmitterValue = 6f;
+	//TODO: opacity as a receptor?
+	const float maxEmitterValue = 10f;
 	float realEmitterValue = 0f;
-
-	//TODO: sunlight
 
 	void Awake() {
 		spriteRenderer = GetComponent<SpriteRenderer>();
-		scalarCell = GetComponent<ScalarCell>();
 	}
 
 	void Update() {
 		//update opacity
-		float opacity = 1 - Mathf.Clamp(scalarCell.RealValue, 0f, 1f);
+		float opacity = 1 - Mathf.Clamp(RealValue + LightAmbience.Value, 0f, 1f);
 		spriteRenderer.color = new Color(1, 1, 1, opacity);
 	}
 
@@ -29,7 +26,7 @@ public class LightScalarCell : MonoBehaviour {
 		if (emitter != null) {
 			realEmitterValue += emitter.Value;
 
-			scalarCell.EmitterValue = Mathf.Clamp(realEmitterValue, 0f, maxEmitterValue);
+			EmitterValue = Mathf.Clamp(realEmitterValue, 0f, maxEmitterValue);
 		}
 	}
 
@@ -39,7 +36,7 @@ public class LightScalarCell : MonoBehaviour {
 		if (emitter != null) {
 			realEmitterValue -= emitter.Value;
 
-			scalarCell.EmitterValue = Mathf.Clamp(realEmitterValue, 0f, maxEmitterValue);
+			EmitterValue = Mathf.Clamp(realEmitterValue, 0f, maxEmitterValue);
 		}
 	}
 }
