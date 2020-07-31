@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 940ded43e666f8c42ae1595eca92afe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combustable: 1
+  combustible: 1
   combustResult: {fileID: 7073731939451630004, guid: fdf7310d06b064f46b8f5e4915ae7433,
     type: 3}
   combustThreshold: 1
