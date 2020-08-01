@@ -20,6 +20,10 @@ public class LightScalarCell : ScalarCell<Light> {
 		spriteRenderer.color = new Color(1, 1, 1, opacity);
 	}
 
+	public override float RealValueLerp(float f) {
+		return Mathf.Lerp(RealValue, f, 0.5f);
+	}
+
 	void OnTriggerEnter2D(Collider2D collider) {
 		LightScalarEmitter emitter = collider.gameObject.GetComponent<LightScalarEmitter>();
 

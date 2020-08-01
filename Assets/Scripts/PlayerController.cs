@@ -19,6 +19,9 @@ public class PlayerController : MonoBehaviour {
 	const float maxSpeed = 400;
 	const float moveForce = 800f;
 
+	//controls
+	public bool ControlsEnabled = true;
+
 	void Awake() {
 		animator = GetComponent<Animator>();
 		rb = GetComponent<Rigidbody2D>();
@@ -37,6 +40,10 @@ public class PlayerController : MonoBehaviour {
 	void HandleInput() {
 		horizontalInput = Input.GetAxis("Horizontal");
 		verticalInput = Input.GetAxis("Vertical");
+
+		if (!ControlsEnabled) {
+			horizontalInput = verticalInput = 0;
+		}
 
 		if (Mathf.Abs(horizontalInput) > deadZone) {
 			lastHorizontalInput = horizontalInput;

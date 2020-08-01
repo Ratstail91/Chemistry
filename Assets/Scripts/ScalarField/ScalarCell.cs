@@ -27,12 +27,12 @@ public class ScalarCell<T> : MonoBehaviour {
 		//emitter propping the scalar field up here
 		if (EmitterValue != 0f) {
 			RealValue = EmitterValue;
-			NextValue = EmitterValue;
+			NextValue = RealValueLerp(EmitterValue);
 			return;
 		}
 
 		//set to the value calculated last frame
-		RealValue = NextValue;
+		RealValue = RealValueLerp(NextValue);
 
 		//calculate the next value based on neighbouring cells' current value
 		float next = 0f;
@@ -65,5 +65,9 @@ public class ScalarCell<T> : MonoBehaviour {
 		} else {
 			return 0f;
 		}
+	}
+
+	public virtual float RealValueLerp(float f) { //for the light system
+		return f;
 	}
 }

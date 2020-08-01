@@ -7,6 +7,9 @@ public class LightScalarField : ScalarField<Light> {
 	public int height = 11;
 
 	public override void Start() {
-		SpawnCells(-width / 2, -height / 2, width /2, height / 2);
+		SpawnCells((int)Mathf.Floor(-width / 2f), (int)Mathf.Floor(-height / 2f), (int)Mathf.Floor(width / 2f), (int)Mathf.Floor(height / 2f));
+
+		//BUGFIX: center the odd-numbered cells
+		transform.position = new Vector3(1f * width % 2f / 2f * 32, 1f * height % 2f / 2f * 32, 0f);
 	}
 }

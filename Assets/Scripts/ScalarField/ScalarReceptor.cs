@@ -15,10 +15,22 @@ public class ScalarReceptor<T> : MonoBehaviour {
 	ScalarCell<T> lastScalarCell;
 
 	public virtual void OnTriggerEnter2D(Collider2D collider) {
-		ScalarCell<T> contact = collider.gameObject.GetComponent<ScalarCell<T>>();
+		Collide(collider.gameObject);
+	}
+
+	public virtual void OnTriggerStay2D(Collider2D collider) {
+		Collide(collider.gameObject);
+	}
+
+	public virtual void Collide(GameObject go) {
+		ScalarCell<T> contact = go.GetComponent<ScalarCell<T>>();
 
 		if (contact != null) {
-			lastScalarCell = contact;
+			if (lastScalarCell != null) {
+				lastScalarCell = lastScalarCell.RealValue >= contact.RealValue ? lastScalarCell : contact;
+			} else {
+				lastScalarCell = contact;
+			}
 		}
 	}
 }
