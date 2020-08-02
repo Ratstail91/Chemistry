@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
+	//references
+	[SerializeField]
+	GameObject movingEntityParent = null;
+
 	//components
 	Animator animator;
 	Rigidbody2D rb;
 	SpriteRenderer spriteRenderer;
+
+	//controls
+	public bool ControlsEnabled = true;
 
 	//cached input
 	const float deadZone = 0.15f;
@@ -14,13 +21,16 @@ public class PlayerController : MonoBehaviour {
 	float verticalInput = 0f;
 	float lastHorizontalInput = 0f;
 	float lastVerticalInput = 0f;
+	bool pickupPressed = false;
+	bool usePressed = false;
 
 	//movement constants
 	const float maxSpeed = 400;
 	const float moveForce = 800f;
 
-	//controls
-	public bool ControlsEnabled = true;
+	//usable tools
+	GameObject currentTool = null;
+	GameObject collidedTool = null;
 
 	void Awake() {
 		animator = GetComponent<Animator>();
@@ -37,12 +47,27 @@ public class PlayerController : MonoBehaviour {
 		HandleAnimation();
 	}
 
+	void OnTriggerEnter2D(Collider2D collider) {
+		if (collider.gameObject.GetComponent<Tool>() != null) {
+			collidedTool = collider.gameObject;
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D collider) {
+		if (collider.gameObject == collidedTool) {
+			collidedTool = null;
+		}
+	}
+
 	void HandleInput() {
-		horizontalInput = Input.GetAxis("Horizontal");
-		verticalInput = Input.GetAxis("Vertical");
+		horizontalInput = InputLayer.GetAxis(InputLayer.Axis.HORIZONTAL);
+		verticalInput = InputLayer.GetAxis(InputLayer.Axis.VERTICAL);
+		pickupPressed = InputLayer.GetButtonDown(InputLayer.Button.PICKUP);
+		usePressed = InputLayer.GetButtonDown(InputLayer.Button.USE);
 
 		if (!ControlsEnabled) {
 			horizontalInput = verticalInput = 0;
+			pickupPressed = false;
 		}
 
 		if (Mathf.Abs(horizontalInput) > deadZone) {
@@ -57,6 +82,16 @@ public class PlayerController : MonoBehaviour {
 			if (Mathf.Abs(horizontalInput) <= deadZone) {
 				lastHorizontalInput = 0f;
 			}
+		}
+
+		if (pickupPressed) {
+			HandlePickupCollidedTool();
+			pickupPressed = false;
+		}
+
+		if (usePressed) {
+			HandleUseCurrentTool();
+			usePressed = false;
 		}
 	}
 
@@ -92,6 +127,39 @@ public class PlayerController : MonoBehaviour {
 		if (rb.velocity.magnitude > maxSpeed) {
 			rb.velocity = rb.velocity * 0.707f;
 		}
+	}
+
+	void HandlePickupCollidedTool() {
+		//drop your current tool
+		if (currentTool != null) {
+			currentTool.GetComponent<Tool>().OnDrop();
+			currentTool.transform.SetParent(movingEntityParent.transform, true);
+
+			if (collidedTool == null) {
+				collidedTool = currentTool;
+				currentTool = null;
+				return;
+			} else {
+				currentTool = null;
+			}
+		}
+
+		//pickup the last tool you encountered in the ground
+		if (collidedTool != null) {
+			currentTool = collidedTool;
+			currentTool.GetComponent<Tool>().OnPickup();
+			currentTool.transform.SetParent(gameObject.transform);
+			currentTool.transform.position = gameObject.transform.position;
+			collidedTool = null;
+		}
+	}
+
+	void HandleUseCurrentTool() {
+		if (currentTool == null) {
+			return;
+		}
+
+		currentTool.GetComponent<Tool>().OnUsed();
 	}
 
 	void HandleAnimation() {

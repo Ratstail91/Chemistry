@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4837429142572364762}
   - component: {fileID: 4837429142572364765}
   - component: {fileID: 4837429142572364764}
+  - component: {fileID: 4801109864044227664}
   m_Layer: 0
   m_Name: Stick
   m_TagString: Untagged
@@ -147,3 +148,15 @@ MonoBehaviour:
   combustResult: {fileID: 3008013854793907057, guid: 35aeb8895af119244a2d4ee440a9e121,
     type: 3}
   combustThreshold: 1.2
+--- !u!114 &4801109864044227664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4837429142572364767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9810c3b0bad6da47a07125927d9ef0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

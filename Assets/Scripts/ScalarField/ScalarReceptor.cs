@@ -22,6 +22,12 @@ public class ScalarReceptor<T> : MonoBehaviour {
 		Collide(collider.gameObject);
 	}
 
+	public virtual void OnTriggerExit2D(Collider2D collider) {
+		if (lastScalarCell == collider.gameObject.GetComponent<ScalarCell<T>>()) {
+			lastScalarCell = null;
+		}
+	}
+
 	public virtual void Collide(GameObject go) {
 		ScalarCell<T> contact = go.GetComponent<ScalarCell<T>>();
 
