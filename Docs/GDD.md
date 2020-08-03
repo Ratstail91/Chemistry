@@ -150,3 +150,5 @@ Poison gas, utilizing scalar fields, produced by monsters or spells.
 
 "Mana", fuel for spells, which is collected from a scalar field.
 
+Dungeon that changes based on the time of day.
+
